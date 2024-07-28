@@ -1,0 +1,25 @@
+//Include the library
+#include "Arduino_LED_Matrix.h"
+//Create an LED matrix object in your sketch
+ArduinoLEDMatrix matrix;
+
+void setup() {
+  Serial.begin(115200);
+  //Start the matrix
+  matrix.begin();
+}
+
+byte frame[8][12] = {
+  { 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 },
+  { 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0 },
+  { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
+  { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+  { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
+  { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+};  
+
+void loop(){
+matrix.renderBitmap(frame, 8, 12);
+}
