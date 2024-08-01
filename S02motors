@@ -1,0 +1,68 @@
+// Motor variables
+int enA = 11;
+int enB = 5;
+int in1 = 10;
+int in2 = 9;
+int in3 = 6;
+int in4 = 7;
+int motor1speed = 90;
+int motor2speed = 90;
+
+void setup() {
+  // Motor setup
+  delay(3000);
+  Serial.begin(9600);  // Starting Serial Terminal
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  // Motors off to begin
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+}
+
+void loop() {
+  analogWrite(enA, motor1speed);
+  analogWrite(enB, motor2speed);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  delay(500);
+
+//Speed up
+  for (int i = 70; i <= 150; i++) {
+    analogWrite(enA, i);
+    analogWrite(enB, i);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    delay(15);
+  }
+
+// Slow down
+  for (int i = 150; i >= 70; i--) {
+    analogWrite(enA, i);
+    analogWrite(enB, i);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    delay(15);
+  }
+
+// Turn
+  analogWrite(enA, 120);
+  analogWrite(enB, 120);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  delay(1000);
+}
