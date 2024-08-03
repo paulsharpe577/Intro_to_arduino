@@ -1,0 +1,51 @@
+// Motor variables
+int enA = 11;
+int enB = 5;
+int in1 = 10;
+int in2 = 9;
+int in3 = 6;
+int in4 = 7;
+int motorspeed = 90;
+int fadeAmount = 5;  // how many points to fade the motor by
+
+void setup() {
+  // Motor setup
+  delay(3000);
+  Serial.begin(9600);  // Starting Serial Terminal
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  // Motors off to begin
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+}
+
+void loop() {
+  analogWrite(enA, motorspeed);
+  analogWrite(enB, motorspeed);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+
+  motorspeed = motorspeed + fadeAmount;
+ 
+  // reverse the direction of the fading at the ends of the fade:
+  if (motorspeed <= 0 || motorspeed >= 255) {
+    fadeAmount = -fadeAmount;
+  }
+
+ Serial.print("fadeAmount: ");
+ Serial.println(fadeAmount);
+ Serial.print("motorspeed: ");
+ Serial.println(motorspeed);
+
+  // wait for 30 milliseconds to see the effect
+  delay(30);
+}
