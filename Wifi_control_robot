@@ -8,8 +8,8 @@ int in4 = 7;
 
 #include "WiFiS3.h"
 
-#define SECRET_SSID "SHELL 29F429"
-#define SECRET_PASS "3fGYY3yEcYbzXMcn"
+#define SECRET_SSID "XXX"
+#define SECRET_PASS "XXX"
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;  // your network SSID (name)
