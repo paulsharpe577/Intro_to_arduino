@@ -1,0 +1,25 @@
+/*
+Type in a number and the program will send it to the buzzer as a tone
+serial monitor set to "No line ending"
+*/
+
+int number = 0;
+int Buzzer = 3;  // The buzzer is connected to the digital pin 9
+int Note;        // Variable in which the note value is saved
+
+void setup() {
+  pinMode(Buzzer, OUTPUT);  // The pin to which the buzzer is connected is set as an output
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int number = Serial.parseInt();
+    Serial.print(" Tone to buzzer:");
+    Serial.println(number);
+    // Writing the note on pin 3
+    tone(Buzzer, number);
+    delay(500);
+    noTone(Buzzer);
+  }
+}
