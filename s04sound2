@@ -1,0 +1,19 @@
+/*
+Buzzer that changes pitch with an LDR
+Needs a 1K resistor, LDR, buzzer
+*/
+
+int Buzzer = 3;    // The buzzer is connected to the digital pin 9
+int photores = 0;  // The photoresistor is connected to the analog pin 0
+int Note;          // Variable in which the note value is saved
+
+void setup() {
+  pinMode(Buzzer, OUTPUT);  // The pin to which the buzzer is connected is set as an output
+  Serial.begin(9600);
+}
+
+void loop() {
+  Note = 3 * (analogRead(photores)) - 2200;  // Calculation of the note
+  tone(Buzzer, Note);                        // Writing the note on pin 9
+  delay(10);                                 // Wait 10 ms before changing the note
+}
