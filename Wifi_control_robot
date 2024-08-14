@@ -1,8 +1,8 @@
 // Motor VARS
-int enA = 9;
+int enA = 11;
 int enB = 5;
 int in1 = 10;
-int in2 = 11;
+int in2 = 9;
 int in3 = 6;
 int in4 = 7;
 
