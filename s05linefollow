@@ -1,0 +1,107 @@
+/*
+IR Line following robot
+*/
+
+// Motor vars
+int enA = 11;
+int enB = 5;
+int in1 = 10;
+int in2 = 9;
+int in3 = 6;
+int in4 = 7;
+
+//Sound vars
+int Buzzer = 3;
+
+//Setup
+void setup() {
+  delay(3000);
+  // Motor setup
+  Serial.begin(9600);  // Starting Serial Terminal
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  //Buzzer setup
+  pinMode(Buzzer, OUTPUT);
+
+  // Motors off to begin
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+
+  delay(500);
+  tone(Buzzer, 300);
+  delay(350);
+  noTone(Buzzer);
+  delay(50);
+  tone(Buzzer, 600);
+  delay(150);
+  noTone(Buzzer);
+  delay(150);
+  tone(Buzzer, 600);
+  delay(150);
+  noTone(Buzzer);
+}
+
+void loop() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+
+  delay(50);
+
+  int rightSensorValue = analogRead(A0);
+  int leftSensorValue = analogRead(A1);
+  Serial.println(rightSensorValue);
+  Serial.println(leftSensorValue);
+
+  // If RIGHTsensor A0 sees black robot needs to go RIGHT
+  if (rightSensorValue == 0) {
+
+    //Turn
+    tone(Buzzer, 600);
+    analogWrite(enA, 100);  // RH
+    analogWrite(enB, 100);  // LH
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    delay(60);
+    noTone(Buzzer);
+    Serial.print("First loop completed:");
+    Serial.println();
+
+  }
+  //If LEFT sensor A1 sees black robot needs to go LEFT
+  else if (leftSensorValue == 0) {
+
+    //Turn
+    tone(Buzzer, 300);
+    analogWrite(enA, 100);
+    analogWrite(enB, 100);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+    delay(60);
+    noTone(Buzzer);
+    Serial.print("Second loop completed:");
+    Serial.println();
+  }
+
+  else {
+    //Just go forwards
+    analogWrite(enA, 100);
+    analogWrite(enB, 100);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    delay(50);
+  }
+}
