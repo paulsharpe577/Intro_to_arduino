@@ -63,7 +63,7 @@ void loop() {
   // If RIGHTsensor A0 sees black robot needs to go RIGHT
   if (rightSensorValue == 0) {
 
-    //Turn
+    //Turn RIGHT
     tone(Buzzer, 600);
     analogWrite(enA, 100);  // RH
     analogWrite(enB, 100);  // LH
@@ -73,7 +73,7 @@ void loop() {
     digitalWrite(in4, HIGH);
     delay(60);
     noTone(Buzzer);
-    Serial.print("First loop completed:");
+    Serial.print("Right turn completed");
     Serial.println();
 
   }
@@ -90,7 +90,7 @@ void loop() {
     digitalWrite(in4, LOW);
     delay(60);
     noTone(Buzzer);
-    Serial.print("Second loop completed:");
+    Serial.print("Left turn completed");
     Serial.println();
   }
 
