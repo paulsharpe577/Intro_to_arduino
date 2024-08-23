@@ -98,10 +98,10 @@ void loop() {
     //Just go forwards
     analogWrite(enA, 100);
     analogWrite(enB, 100);
-    digitalWrite(in1, HIGH);
-    digitalWrite(in2, LOW);
-    digitalWrite(in3, LOW);
-    digitalWrite(in4, HIGH);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
     delay(XXXXX);
   }
 }
