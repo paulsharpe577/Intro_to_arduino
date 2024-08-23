@@ -55,8 +55,8 @@ void loop() {
 
   delay(XXXXX);
 
-  int rightSensorValue = analogRead(A0);
-  int leftSensorValue = analogRead(A1);
+  int rightSensorValue = analogRead(A2);
+  int leftSensorValue = analogRead(A3);
   Serial.println(rightSensorValue);
   Serial.println(leftSensorValue);
 
