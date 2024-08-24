@@ -1,3 +1,8 @@
+/*
+Ultrasound robot
+Any variables marked ** can be changed to change the charateristic of the robot
+*/
+
 // Motor VARS
 int enA = 11;
 int enB = 5;
@@ -6,44 +11,50 @@ int in2 = 9;
 int in3 = 6;
 int in4 = 7;
 int leftorright = 0;
+//**Change how long the robot reverses here
+int reverseTime = 600;
+//**Changes these to modify speed of the robot, max 255
 int motorspeed = 110;
+int motorturnspeed = 100;
+//**Change this to set when the robot decides to stop and initiate a turn (in cm)
+int distanceStop = 25;
 
 //Ultrasound VARS
 const int pingPin = 4;  // Trigger Pin of Ultrasonic Sensor
 const int echoPin = 2;  // Echo Pin of Ultrasonic Sensor
 long duration, inches, cm;
 
-//Sound vars
+//Sound VARS
 int Buzzer = 3;
+//**Change this to change the tone of the buzzer
+int buzzerTuning = 10;
 
-//Random setup
+//Random number setup
 long randNumber;
 
 //LED Matrix
 #include "Arduino_LED_Matrix.h"
 ArduinoLEDMatrix matrix;
 
+//LED matrix patterns
 //FWD
 const uint32_t frame1[] = {
 		0x2001000,
 		0x83fc3fc0,
 		0x8010020,
 };
-
 //BACK
 const uint32_t frame2[] = {
 		0x4008010,
 		0x3fc3fc1,
 		0x80040,
 };
-
 //LEFT
 const uint32_t frame3[] = {
 		0xf016,
 		0x82644620,
 		0x60060000,
 };
-
 //RIGHT
 const uint32_t frame4[] = {
 		0x6006,
@@ -91,6 +102,7 @@ void setup() {
 }
 
 void loop() {
+  //**Sets function "random" between this range, change this changes the time randomness of the robot in turning
   randNumber = random(500, 1600);
   Serial.print("Var is currently:");
   Serial.print(leftorright);
@@ -108,43 +120,39 @@ void loop() {
   Serial.print(cm);
   Serial.print("cm");
   Serial.println();
-  tone(3, (cm * 10), 200);
+  tone(3, (cm * buzzerTuning));
   delay(100);
   noTone(3);
 
   //Object detected, reverse and turn one way
-  if ((cm <= 25) && (leftorright == 0)) {
-    tone(3, (cm * 10), 200);
+  if ((cm <= distanceStop) && (leftorright == 0)) {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);
     digitalWrite(in3, LOW);
     digitalWrite(in4, LOW);
     delay(1000);
-    noTone(3);
-
+    
     //Reverse
     matrix.loadFrame(frame2);
     analogWrite(enA, motorspeed);  // RH
     analogWrite(enB, motorspeed);  // LH
-    tone(3, (cm * 10), 200);
+    tone(3, (cm * buzzerTuning));
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     digitalWrite(in3, HIGH);
     digitalWrite(in4, LOW);
-    delay(600);
+    delay(reverseTime);
     noTone(3);
 
     //Turn
     matrix.loadFrame(frame3);
-    analogWrite(enA, 100);  // RH
-    analogWrite(enB, 100);  // LH
-    tone(3, (cm * 10), 200);
+    analogWrite(enA, motorturnspeed);  // RH
+    analogWrite(enB, motorturnspeed);  // LH
     digitalWrite(in1, HIGH);
     digitalWrite(in2, LOW);
     digitalWrite(in3, HIGH);
     digitalWrite(in4, LOW);
     delay(randNumber);
-    noTone(3);
     leftorright = 1;
     Serial.print("First loop completed:");
     Serial.print(leftorright);
@@ -152,7 +160,7 @@ void loop() {
 
   }
   //Object detected, reverse and turn other way
-  else if ((cm <= 12) && (leftorright == 1)) {
+  else if ((cm <= distanceStop) && (leftorright == 1)) {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);
     digitalWrite(in3, LOW);
@@ -161,27 +169,25 @@ void loop() {
 
     //Reverse
     matrix.loadFrame(frame2);
-    tone(3, (cm * 10), 200);
+    tone(3, (cm * buzzerTuning));
     analogWrite(enA, motorspeed);
     analogWrite(enB, motorspeed);
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     digitalWrite(in3, HIGH);
     digitalWrite(in4, LOW);
-    delay(600);
+    delay(reverseTime);
     noTone(3);
 
     //Turn
     matrix.loadFrame(frame4);
-    analogWrite(enA, 100);
-    analogWrite(enB, 100);
-    tone(3, (cm * 10), 200);
+    analogWrite(enA, motorturnspeed);
+    analogWrite(enB, motorturnspeed);
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     digitalWrite(in3, LOW);
     digitalWrite(in4, HIGH);
     delay(randNumber);
-    noTone(3);
     leftorright = 0;
     Serial.print("Second loop completed:");
     Serial.print(leftorright);
