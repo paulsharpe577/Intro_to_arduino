@@ -6,7 +6,7 @@ int in2 = 9;
 int in3 = 6;
 int in4 = 7;
 int leftorright = 0;
-int motorspeed = 150;
+int motorspeed = 110;
 
 //Ultrasound VARS
 const int pingPin = 4;  // Trigger Pin of Ultrasonic Sensor
@@ -18,6 +18,38 @@ int Buzzer = 3;
 
 //Random setup
 long randNumber;
+
+//LED Matrix
+#include "Arduino_LED_Matrix.h"
+ArduinoLEDMatrix matrix;
+
+//FWD
+const uint32_t frame1[] = {
+		0x2001000,
+		0x83fc3fc0,
+		0x8010020,
+};
+
+//BACK
+const uint32_t frame2[] = {
+		0x4008010,
+		0x3fc3fc1,
+		0x80040,
+};
+
+//LEFT
+const uint32_t frame3[] = {
+		0xf016,
+		0x82644620,
+		0x60060000,
+};
+
+//RIGHT
+const uint32_t frame4[] = {
+		0x6006,
+		0x2641680,
+		0xf0060000,
+};
 
 //Setup
 void setup() {
@@ -53,10 +85,13 @@ void setup() {
   tone(Buzzer, 600);
   delay(150);
   noTone(Buzzer);
+
+  //Matrix
+  matrix.begin();
 }
 
 void loop() {
-  randNumber = random(400, 1200);
+  randNumber = random(500, 1600);
   Serial.print("Var is currently:");
   Serial.print(leftorright);
   Serial.println();
@@ -88,6 +123,7 @@ void loop() {
     noTone(3);
 
     //Reverse
+    matrix.loadFrame(frame2);
     analogWrite(enA, motorspeed);  // RH
     analogWrite(enB, motorspeed);  // LH
     tone(3, (cm * 10), 200);
@@ -99,6 +135,7 @@ void loop() {
     noTone(3);
 
     //Turn
+    matrix.loadFrame(frame3);
     analogWrite(enA, 100);  // RH
     analogWrite(enB, 100);  // LH
     tone(3, (cm * 10), 200);
@@ -123,6 +160,7 @@ void loop() {
     delay(1000);
 
     //Reverse
+    matrix.loadFrame(frame2);
     tone(3, (cm * 10), 200);
     analogWrite(enA, motorspeed);
     analogWrite(enB, motorspeed);
@@ -134,6 +172,7 @@ void loop() {
     noTone(3);
 
     //Turn
+    matrix.loadFrame(frame4);
     analogWrite(enA, 100);
     analogWrite(enB, 100);
     tone(3, (cm * 10), 200);
@@ -151,6 +190,7 @@ void loop() {
 
   else {
     //Just go forwards
+    matrix.loadFrame(frame1);
     analogWrite(enA, motorspeed);
     analogWrite(enB, motorspeed);
     digitalWrite(in1, HIGH);
