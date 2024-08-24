@@ -1,6 +1,6 @@
 /*
 Ultrasound robot
-Any variables marked ** can be changed to change the charateristic of the robot
+Any variables marked ** change the charateristics of the robot
 */
 
 // Motor VARS
@@ -39,27 +39,27 @@ ArduinoLEDMatrix matrix;
 //LED matrix patterns
 //FWD
 const uint32_t frame1[] = {
-		0x2001000,
-		0x83fc3fc0,
-		0x8010020,
+  0x2001000,
+  0x83fc3fc0,
+  0x8010020,
 };
 //BACK
 const uint32_t frame2[] = {
-		0x4008010,
-		0x3fc3fc1,
-		0x80040,
+  0x4008010,
+  0x3fc3fc1,
+  0x80040,
 };
 //LEFT
 const uint32_t frame3[] = {
-		0xf016,
-		0x82644620,
-		0x60060000,
+  0xf016,
+  0x82644620,
+  0x60060000,
 };
 //RIGHT
 const uint32_t frame4[] = {
-		0x6006,
-		0x2641680,
-		0xf0060000,
+  0x6006,
+  0x2641680,
+  0xf0060000,
 };
 
 //Setup
@@ -84,7 +84,7 @@ void setup() {
   pinMode(pingPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  delay(2000);
+  delay(3000);
   tone(Buzzer, 300);
   delay(350);
   noTone(Buzzer);
@@ -104,7 +104,7 @@ void setup() {
 void loop() {
   //**Sets function "random" between this range, change this changes the time randomness of the robot in turning
   randNumber = random(500, 1600);
-  Serial.print("Var is currently:");
+  Serial.print("leftorright is currently:");
   Serial.print(leftorright);
   Serial.println();
   digitalWrite(pingPin, LOW);
@@ -131,7 +131,7 @@ void loop() {
     digitalWrite(in3, LOW);
     digitalWrite(in4, LOW);
     delay(1000);
-    
+
     //Reverse
     matrix.loadFrame(frame2);
     analogWrite(enA, motorspeed);  // RH
