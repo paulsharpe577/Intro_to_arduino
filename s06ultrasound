@@ -1,0 +1,169 @@
+// Motor VARS
+int enA = 11;
+int enB = 5;
+int in1 = 10;
+int in2 = 9;
+int in3 = 6;
+int in4 = 7;
+int leftorright = 0;
+int motorspeed = 150;
+
+//Ultrasound VARS
+const int pingPin = 4;  // Trigger Pin of Ultrasonic Sensor
+const int echoPin = 2;  // Echo Pin of Ultrasonic Sensor
+long duration, inches, cm;
+
+//Sound vars
+int Buzzer = 3;
+
+//Random setup
+long randNumber;
+
+//Setup
+void setup() {
+  // Motor setup
+  randomSeed(analogRead(5));
+  Serial.begin(9600);  // Starting Serial Terminal
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  // Motors off to begin
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+
+  // Ultrasound sensor setup
+  pinMode(pingPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  delay(2000);
+  tone(Buzzer, 300);
+  delay(350);
+  noTone(Buzzer);
+  delay(50);
+  tone(Buzzer, 600);
+  delay(150);
+  noTone(Buzzer);
+  delay(150);
+  tone(Buzzer, 600);
+  delay(150);
+  noTone(Buzzer);
+}
+
+void loop() {
+  randNumber = random(400, 1200);
+  Serial.print("Var is currently:");
+  Serial.print(leftorright);
+  Serial.println();
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pingPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  inches = microsecondsToInches(duration);
+  cm = microsecondsToCentimeters(duration);
+  Serial.print(inches);
+  Serial.print("in, ");
+  Serial.print(cm);
+  Serial.print("cm");
+  Serial.println();
+  tone(3, (cm * 10), 200);
+  delay(100);
+  noTone(3);
+
+  //Object detected, reverse and turn one way
+  if ((cm <= 25) && (leftorright == 0)) {
+    tone(3, (cm * 10), 200);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW);
+    delay(1000);
+    noTone(3);
+
+    //Reverse
+    analogWrite(enA, motorspeed);  // RH
+    analogWrite(enB, motorspeed);  // LH
+    tone(3, (cm * 10), 200);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+    delay(600);
+    noTone(3);
+
+    //Turn
+    analogWrite(enA, 100);  // RH
+    analogWrite(enB, 100);  // LH
+    tone(3, (cm * 10), 200);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+    delay(randNumber);
+    noTone(3);
+    leftorright = 1;
+    Serial.print("First loop completed:");
+    Serial.print(leftorright);
+    Serial.println();
+
+  }
+  //Object detected, reverse and turn other way
+  else if ((cm <= 12) && (leftorright == 1)) {
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW);
+    delay(1000);
+
+    //Reverse
+    tone(3, (cm * 10), 200);
+    analogWrite(enA, motorspeed);
+    analogWrite(enB, motorspeed);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+    delay(600);
+    noTone(3);
+
+    //Turn
+    analogWrite(enA, 100);
+    analogWrite(enB, 100);
+    tone(3, (cm * 10), 200);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    delay(randNumber);
+    noTone(3);
+    leftorright = 0;
+    Serial.print("Second loop completed:");
+    Serial.print(leftorright);
+    Serial.println();
+  }
+
+  else {
+    //Just go forwards
+    analogWrite(enA, motorspeed);
+    analogWrite(enB, motorspeed);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+  }
+}
+
+long microsecondsToInches(long microseconds) {
+  return microseconds / 74 / 2;
+}
+
+long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
