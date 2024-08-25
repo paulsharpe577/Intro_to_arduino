@@ -39,7 +39,7 @@ long randTurn;
 long randReverse;
 //Randomize speed
 long randSpeed;
-//Random min distance before robot moves
+//Random min distance before robot stops and changes direction
 long randDistance;
 
 //LED Matrix
