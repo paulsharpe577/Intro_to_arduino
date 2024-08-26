@@ -33,8 +33,6 @@ int buzzerTuning = 10;
 
 //Random number for turn
 long randNumber;
-//Random number for left or right
-long randTurn;
 //Random number for reverse
 long randReverse;
 //Randomize speed
@@ -117,13 +115,11 @@ void loop() {
   //Loop randomizers
 
   //Random delay for turn
-  randNumber = random(500, 1600);
-  //Random number for left or right
-  randTurn = random(0, 1);
+  randNumber = random(500, 2800);
   //Random delay for reverse
   randReverse = random(400, 1000);
   //Randomize speed
-  randSpeed = random(90, 200);
+  randSpeed = random(100, 200);
   //Random min distance before robot moves
   randDistance = random(12, 30);
 
@@ -148,7 +144,7 @@ void loop() {
   noTone(3);
 
   //Object detected, reverse and turn one way
-  if ((cm <= randDistance) && (randTurn == 0)) {
+  if ((cm <= randDistance) && (leftorright == 0)) {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);
     digitalWrite(in3, LOW);
@@ -157,8 +153,8 @@ void loop() {
 
     //Reverse
     matrix.loadFrame(frame2);
-    analogWrite(enA, randSpeed);  // RH
-    analogWrite(enB, randSpeed);  // LH
+    analogWrite(enA, 90);  // RH
+    analogWrite(enB, 90);  // LH
     tone(3, (cm * buzzerTuning));
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
@@ -183,7 +179,7 @@ void loop() {
 
   }
   //Object detected, reverse and turn other way
-  else if ((cm <= randDistance) && (randTurn == 1)) {
+  else if ((cm <= randDistance) && (leftorright == 1)) {
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);
     digitalWrite(in3, LOW);
@@ -193,8 +189,8 @@ void loop() {
     //Reverse
     matrix.loadFrame(frame2);
     tone(3, (cm * buzzerTuning));
-    analogWrite(enA, randSpeed);
-    analogWrite(enB, randSpeed);
+    analogWrite(enA, 90);
+    analogWrite(enB, 90);
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     digitalWrite(in3, HIGH);
