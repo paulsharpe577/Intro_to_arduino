@@ -11,7 +11,7 @@
 
 #include <ArduinoBLE.h>
 
-BLEService robotService("19B10000-E8F2-537E-4F6C-D104768A1214");  // Bluetooth® Low Energy robot Service
+BLEService robotService1("19B10000-E8F2-537E-4F6C-D104768A1214");  // Bluetooth® Low Energy robot Service
 
 // Bluetooth® Low Energy LED Switch Characteristic - custom 128-bit UUID, read and writable by central
 BLEByteCharacteristic switchCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
@@ -61,14 +61,14 @@ void setup() {
   }
 
   // set advertised local name and service UUID:
-  BLE.setLocalName("robotService");
-  BLE.setAdvertisedService(robotService);
+  BLE.setLocalName("robotService1");
+  BLE.setAdvertisedService(robotService1);
 
   // add the characteristic to the service
-  robotService.addCharacteristic(switchCharacteristic);
+  robotService1.addCharacteristic(switchCharacteristic);
 
   // add service
-  BLE.addService(robotService);
+  BLE.addService(robotService1);
 
   // set the initial value for the characeristic:
   switchCharacteristic.writeValue(0);
