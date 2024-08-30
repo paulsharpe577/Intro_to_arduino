@@ -6,6 +6,7 @@
   state of the LED accordingly. Any non-zero value will turn on the LED, while a 
   zero value will turn it off.
 
+Board no 1
   Board: Arduino Uno R4 WiFI
 */
 
