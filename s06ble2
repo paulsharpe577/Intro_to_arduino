@@ -139,6 +139,18 @@ void loop() {
           tone(Buzzer, 300);
           delay(150);
           noTone(Buzzer);
+
+          analogWrite(enA, 150);
+          analogWrite(enB, 150);
+          digitalWrite(in1, LOW);
+          digitalWrite(in2, HIGH);
+          digitalWrite(in3, LOW);
+          digitalWrite(in4, HIGH);
+          delay(300);
+          digitalWrite(in1, LOW);
+          digitalWrite(in2, LOW);
+          digitalWrite(in3, LOW);
+          digitalWrite(in4, LOW);
         }
       }
     }
